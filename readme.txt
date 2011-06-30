@@ -29,7 +29,7 @@ You `MUST` have a page on draugiem.lv/lapas to use this widget.
 * Fan count,
 * widget width
 
-=Iespējas=
+= Iespējas =
 
 * Tulkot vairākās valodās
 * Dot logdaļai nosaukumu, platumu un sekotāju skaitu
