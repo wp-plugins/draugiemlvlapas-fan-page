@@ -9,7 +9,7 @@
  * Author URI: http://umbrovskis.com
  * License: GPL
  */
-// -------------
+
 /**
  * Exit if accessed directly (security)
  * jeb parādam mēli :P
