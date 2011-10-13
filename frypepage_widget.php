@@ -41,8 +41,8 @@ define('FFPSH','ffpsh');
  * dev test 2011-08-15
  * @since 2.1
  */
-define('OPTINLVURI','http://darbi.mediabox.lv/wordpress-jaunumi-e-pasta/');
-define('OPTINENURI','http://e-art.lv/x/smcnewsletter');
+define('OPTINLVURI1','http://darbi.mediabox.lv/wordpress-jaunumi-e-pasta/');
+define('OPTINENURI1','http://e-art.lv/x/smcnewsletter');
 
 
 /**
@@ -355,11 +355,11 @@ function mediabox_feedlink_ffp(){
 
 echo'<div style="float:right; display:inline; width:198px;"><a href="http://simplemediacode.com/" title="Visit SimpleMediaCode.com"><img src="'.FRYPEFANPAGEI.'/simple-media-code-logo-web.png" class="alignright" alt="SimpleMediaCode.com"/></a></div>';
 echo '<div style="padding: 10px 0 10px; float:left; display:inline;"><a href="http://feeds.feedburner.com/mediaboxlv"><img src="'.get_bloginfo('wpurl').'/wp-includes/images/rss.png" alt="" /> Subscribe via RSS</a><br />';
-echo '<img src="'.FRYPEFANPAGEI.'/email_add.png" alt="via email" /> <a href="'.OPTINLVURI.'?utm_campaign=WordPress_Plugins&utm_content='.FRYPEFANPAGEF.'-v'.FFPVERSION.'_adminhelp&utm_medium=textlink-subscribeviaemail&utm_source='.get_home_url().'">Subscribe via email</a>';
+echo '<img src="'.FRYPEFANPAGEI.'/email_add.png" alt="via email" /> <a href="'.OPTINLVURI1.'?utm_campaign=WordPress_Plugins&utm_content='.FRYPEFANPAGEF.'-v'.FFPVERSION.'_adminhelp&utm_medium=textlink-subscribeviaemail&utm_source='.get_home_url().'">Subscribe via email</a>';
 		if(WPLANG!='lv'){ 
 		?><br />
         <img src="<?php echo FRYPEFANPAGEI;?>/email_add.png" alt="via email" />
-        <a href="<?php echo OPTINLVURI;?>" rel="nofollow" title="Subscribe to SimpleMediaCode.com newsletter"><strong>Subscribe</strong> to our newsletter</a>
+        <a href="<?php echo OPTINLVURI1;?>" rel="nofollow" title="Subscribe to SimpleMediaCode.com newsletter"><strong>Subscribe</strong> to our newsletter</a>
 <?php 
 		}
 echo '
