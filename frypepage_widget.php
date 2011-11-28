@@ -3,11 +3,12 @@
  * Plugin Name: Draugiem.lv biznesa lapu sekotāju spraudnis
  * Plugin URI: http://darbi.mediabox.lv/draugiem-lvlapas-fanu-wordpress-spraudnis/?utm_source=WPplugin%3Adraugiemlv-lapas-fan-page&utm_medium=wordpressplugin&utm_campaign=FreeWordPressPlugins&utm_content=v-2-0-1
  * Description: Parāda draugiem.lv/lapas lietotājus, to skaitu, logo un iespēju kļūt par lapas fanu, Shows draugiem.lv/lapas users, fan count, logo and possibility to became a fan
- * Version: 2.1
+ * Version: 2.2
  * Requires at least: 2.6
  * Author: Rolands Umbrovskis
  * Author URI: http://umbrovskis.com
  * License: GPL
+ * Stable tag: 2.2
  */
 
 /**
@@ -24,9 +25,10 @@ if (!defined('ABSPATH')) exit;
  */
 add_action( 'widgets_init', 'meblogfrypepage_load_widgets' );
 
-define('FFPVERSION','2.1');
+define('FFPVERSION','2.2');
 define('FRYPEFANPAGEF','draugiemlvlapas-fan-page');
 define('FRYPEFANPAGED',dirname(__FILE__)); // widget path location @since 0.1.6
+define('FRYPEFANPAGEINC',FRYPEFANPAGED.'/includes_fd'); // widget path location @since 2.1.1
 define('FRYPEFANPAGEURI',plugin_dir_url(__FILE__)); // widget url location @since 2.1
 define('FRYPEFANPAGEI',plugins_url(FRYPEFANPAGEF).'/img'); // Image location @since 0.1.6
 define('FRYPEFANPAGEINFO','http://darbi.mediabox.lv/draugiem-lvlapas-fanu-wordpress-spraudnis/'); // Plugin info
@@ -41,8 +43,8 @@ define('FFPSH','ffpsh');
  * dev test 2011-08-15
  * @since 2.1
  */
-define('OPTINLVURI1','http://darbi.mediabox.lv/wordpress-jaunumi-e-pasta/');
-define('OPTINENURI1','http://e-art.lv/x/smcnewsletter');
+define('OPTINLVURI1','http://darbi.mediabox.lv/wordpress-jaunumi-e-pasta/'); // fix 2.1.1
+define('OPTINENURI1','http://e-art.lv/x/smcnewsletter'); // fix 2.1.1
 
 
 /**
@@ -70,15 +72,13 @@ function meblogfrypepage_set_plugin_meta($links, $file) {
 	// create link
 	if ($file == $plugin) {
 		return array_merge( $links, array( 
-/**
- * @todo Atbalsta forums, ieteikumi nākai versijai
-*/
+
 			'<a href="http://atbalsts.mediabox.lv/diskusija/draugiem-lv-biznesa-lapu-wordpress-spraudnis/#new-post">' . __('Support Forum') . '</a>',
 			'<a href="http://atbalsts.mediabox.lv/temats/ieteikumi/#new-post">' . __('Feature request') . '</a>',
-			'<a href="http://mediabox.lv/code/Draugiem.lv_Lapas_Fan_page">' . __('Wiki page') . '</a>',
-			'<a href="http://web20.lv/forums/draugiemlv-lapu-sekotaju-spraudnis/">www</a>',
-			'<a href="http://umbrovskis.com/ziedo/">' . __('Donate') . '</a>',
-			'<a href="http://umbrovskis.com/">Umbrovskis.com</a>'
+			'<a href="http://atbalsts.mediabox.lv/wiki/Draugiem.lv_biznesa_lapu_fanu_Wordpress_spraudnis">' . __('Wiki page') . '</a>',
+			'<a href="http://darbi.mediabox.lv/draugiem-lvlapas-fanu-wordpress-spraudnis/">www</a>',
+			'<a href="http://umbrovskis.com/ziedo/">' . __('Donate') . '</a>'
+			,'<a href="http://umbrovskis.com/">Umbrovskis.com</a>'
 		));
 	}
 	return $links;
@@ -172,11 +172,7 @@ fans.append('fansblock<?php echo $widgetid;?>');
 </script>
 <div class="dfoot"></div>
 <?php 
-/**
-* @todo ja draugiem.lv neko vairs nemainīs, varēs atkomentēt un "salabot"
-*/
-/* <a href="#" onClick="dfp_DraugiemSay(); return false"><img src="<?php echo WP_PLUGIN_URL.'/'.FRYPEFANPAGEF.'/img/';?>draugiem-say.png" width="16" height="16" alt="iesaki draugiem" border="0"></a>
-<a href="<?php echo FRYPEFANPAGEINFO;?>?utm_campaign=WordPress_Plugins&utm_content=<?php echo FRYPEFANPAGEF.'-v'.FFPVERSION;?>&utm_medium=iconlink" title="WordPress spraudņu un tēmu izstrāde"><img src="<?php echo WP_PLUGIN_URL.'/'.FRYPEFANPAGEF.'/img/';?>mediabox-icon-16sq.png" width="16" height="16" alt="MB" border="0" /></a> */ 
+
 
 		/* After widget (defined by themes). */
 		echo $after_widget;
@@ -338,88 +334,6 @@ return $fwshort;
 }
 add_shortcode('frypefans', 'ffp_shortcode');
 
-/*  Extras :) 
-* @since 0.1.6
-* @edited 2011-01-21
-*/
-if (!function_exists('mediabox_feedlink_ffp')) {
-function mediabox_feedlink_ffp(){
-	include_once(ABSPATH . WPINC . '/feed.php');
-	$mediaboxrss = fetch_feed('http://mediabox.lv/rss-tech.php');
-		if (!is_wp_error( $mediaboxrss ) ) : // Checks that the object is created correctly 
-    	// Figure out how many total items there are, but limit it to 5. 
-    	$maxitems = $mediaboxrss->get_item_quantity(2); 
-    	// Build an array of all the items, starting with element 0 (first element).
-    	$mediaboxrss_items = $mediaboxrss->get_items(0, $maxitems); 
-	endif;
-
-echo'<div style="float:right; display:inline; width:198px;"><a href="http://simplemediacode.com/" title="Visit SimpleMediaCode.com"><img src="'.FRYPEFANPAGEI.'/simple-media-code-logo-web.png" class="alignright" alt="SimpleMediaCode.com"/></a></div>';
-echo '<div style="padding: 10px 0 10px; float:left; display:inline;"><a href="http://feeds.feedburner.com/mediaboxlv"><img src="'.get_bloginfo('wpurl').'/wp-includes/images/rss.png" alt="" /> Subscribe via RSS</a><br />';
-echo '<img src="'.FRYPEFANPAGEI.'/email_add.png" alt="via email" /> <a href="'.OPTINLVURI1.'?utm_campaign=WordPress_Plugins&utm_content='.FRYPEFANPAGEF.'-v'.FFPVERSION.'_adminhelp&utm_medium=textlink-subscribeviaemail&utm_source='.get_home_url().'">Subscribe via email</a>';
-		if(WPLANG!='lv'){ 
-		?><br />
-        <img src="<?php echo FRYPEFANPAGEI;?>/email_add.png" alt="via email" />
-        <a href="<?php echo OPTINLVURI1;?>" rel="nofollow" title="Subscribe to SimpleMediaCode.com newsletter"><strong>Subscribe</strong> to our newsletter</a>
-<?php 
-		}
-echo '
-</div>';
-
-echo '<div style="border-bottom: 1px solid #000; clear:both; font:9px Verdana, Geneva, sans-serif; display:block;"><ul><li>';
-if(WPLANG=='lv'){
-echo 'WordPress mājas lapu izstrāde, WP spraudņu veidošana. Uzzini vairāk: <a href="http://mediabox.lv/pakalpojumi/?utm_campaign=WordPress_Plugins&utm_content='.FRYPEFANPAGEF.'-v'.FFPVERSION.'_adminhelp&utm_medium=textlink-webdevservices&utm_source='.get_home_url().'" title="Mājas lapu izstrādes pakalpojumi">MediaBox.lv pakalpojumi</a>';}
-else{
-echo 'WordPress homepages, WP plugin and theme development. Find out: <a href="http://simplemediacode.com/services/?utm_campaign=WordPress_Plugins&utm_content='.FRYPEFANPAGEF.'-v'.FFPVERSION.'_adminhelp&utm_medium=textlink-webdevservices&utm_source='.get_home_url().'" title="Website developmet ob WordPress">SimpleMediaCode.com Services</a>';
-	} echo'</li></ul></div>';	
-?>
-<?php echo '<div>';
-			if ($maxitems == 0): 
-		echo '<p><a href="http://simplemediacode.com/" title="Visit SimpleMediaCode.com">SimpleMediaCode.com</a></p>
-			<p><a href="http://mediabox.lv/" title="MediaBox.lv">MediaBox.lv</a></p>
-			<p><a href="http://umbrovskis.com/" title="Umbrovskis.com">Umbrovskis.com</a></p>';
-			else:
-			// Loop through each feed item and display each item as a hyperlink.
-				foreach ( $mediaboxrss_items as $item ) : ?>
-				<p><a href='<?php echo $item->get_permalink(); ?>' title='<?php echo $item->get_title(). ' ('.$item->get_date('Y-M-d H:i:s').')'; ?>'><?php echo $item->get_title(); ?></a></p>
-				<?php endforeach;
-			endif;
-		echo '</div>';
-		
-		if(WPLANG=='lv'){
-			?>
-			<p>Ieskaties <strong><a href="http://mediabox.lv/" title="MediaBox.lv">MediaBox.lv</a></strong></p>
-			<?php 
-		}else{
-			?>
-			<p>Visit <strong><a href="http://simplemediacode.com/" title="Visit SimpleMediaCode.com">SimpleMediaCode.com</a></strong></p>
-			<?php 	
-		} 
-
-		
-		// opt-in
-		if(WPLANG=='lv'){
-		?>
-		<div id="mc_embed_signup">
-<form action="http://mediabox.us2.list-manage1.com/subscribe/post?u=786b1708223a9b1b96758420c&amp;id=50924cdc57" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
-	<label for="mce-EMAIL">Saņem vēl nepublicētos jaunumus e-pastā</label>
-	<input type="email" value="<?php echo get_option('admin_email');?>" name="EMAIL" class="email" id="mce-EMAIL" placeholder="e-pasta adrese" required>
-	<div class="clear"><input type="submit" value="Abonēt" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-</form>
-
-</div>
-		<?php 
-		}
-
-}
-
-function mediabox_ffp_add_dashboard_widgets() {
-	if(WPLANG=='lv'){ $adminwidnosaukums = 'MediaBox.lv/wordpress';}else{ $adminwidnosaukums = 'SimpleMediaCode.com/wordpress';}
-	wp_add_dashboard_widget('mediabox_ffp_dashboard_widget', $adminwidnosaukums, 'mediabox_feedlink_ffp');	
-} 
-
-add_action('wp_dashboard_setup', 'mediabox_ffp_add_dashboard_widgets' );
-}
-
 /*
 * @since 0.1.7
 * @date 2010-10-02
@@ -431,4 +345,139 @@ function fryped_head_ffp(){
 // 2010-11-22 All javascripts in footer :)
 // Maybe remove? @since 2.0
 // add_filter('wp_footer', 'fryped_head_ffp',20);
+
+
+// --------------------------------------------------------------------------------
+/* EVENTS
+ * @date 2011-11-07 21:46
+ * @since 2.1.1a
+*/
+
+/**
+ * Frype_EventWidget Class
+ */
+class Frype_EventWidget extends WP_Widget {
+	/** constructor */
+	function __construct() {
+		parent::WP_Widget( 'frype_eventwidget', __('Frype Event Widget','frypepage_widget'), array( 'description' => __('Frype Event Widget','frypepage_widget') ) );
+	}
+
+	/** @see WP_Widget::widget */
+	function widget( $args, $instance ) {
+		extract( $args );
+		$title = apply_filters( 'widget_title', $instance['title'] );
+		$frypeeventid = apply_filters( 'widget_frypeeventid', $instance['frypeeventid'] );
+		$frypeeventcount = apply_filters( 'widget_frypeeventcount', $instance['frypeeventcount'] );
+		$frypeeventwwidth = apply_filters( 'widget_frypeeventwwidth', $instance['frypeeventwwidth'] );
+		
+		echo $before_widget;
+		if ( $title ) { echo $before_title . $title . $after_title;}
+		
+/*<!-- mazā poga
+<div id="eventFanButton<?php echo $frypeeventid;?>"></div>
+<script type="text/javascript">
+var e = new DApi.Events(<?php echo $frypeeventid;?>);
+e.append('eventFanButton<?php echo $frypeeventid;?>');
+</script>
+-->
+*/
+
+echo '<!-- Draugiem.lv biznesa lapu sekotāju spraudnis '.FFPVERSION.' via http://umbrovskis.com  / Event: '.$frypeeventid.'  -->';
 ?>
+<div id="evFansBlock<?php echo $frypeeventid;?>"></div>
+<style type="text/css">
+#evFansBlock<?php echo $frypeeventid;?> { width:<?php echo $frypeeventwwidth; ?>px;border: 1px solid #c9c9c9; }
+</style>
+<script type="text/javascript">
+var fans = new DApi.EvFans( {
+	name:'ev/<?php echo $frypeeventid;?>/',
+	count:<?php echo $frypeeventcount; ?>
+} );
+fans.append( 'evFansBlock<?php echo $frypeeventid;?>' );
+</script>
+<?php 
+echo '<!-- Draugiem.lv biznesa lapu sekotāju spraudnis '.FFPVERSION.' via http://umbrovskis.com  / '.$frypeeventid.' beigas  -->';
+		echo $after_widget;
+	}
+
+	/** @see WP_Widget::update */
+	function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['frypeeventid'] = strip_tags($new_instance['frypeeventid']);
+		$instance['frypeeventcount'] = strip_tags($new_instance['frypeeventcount']);
+		$instance['frypeeventwwidth'] = strip_tags($new_instance['frypeeventwwidth']);
+
+		return $instance;
+	}
+
+	/** @see WP_Widget::form */
+	function form( $eventinstance ) {
+		$eventdefaults = array(
+			'title' => __('Draugiem.lv/events', 'frypepage_widget'),
+			'frypeeventid' => '',
+			'frypeeventwwidth' => 300,
+			'frypeeventcount' => 5,
+		);
+		$instance = wp_parse_args( (array) $eventinstance, $eventdefaults );
+
+		?>
+		<p>
+		<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Frype Event Widget Title:', 'frypepage_widget'); ?></label> 
+		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr( $instance[ 'title' ] ); ?>" />
+		</p>
+		<p>
+		<label for="<?php echo $this->get_field_id('frypeeventid'); ?>"><?php _e('Frype Event ID:', 'frypepage_widget'); ?></label> 
+		<input class="widefat" id="<?php echo $this->get_field_id('frypeeventid'); ?>" name="<?php echo $this->get_field_name('frypeeventid'); ?>" type="text" value="<?php echo esc_attr( $instance[ 'frypeeventid' ] ); ?>" />
+		</p>
+		<p>
+		<label for="<?php echo $this->get_field_id('frypeeventcount'); ?>"><?php _e('How many users to show?', 'frypepage_widget'); ?></label> 
+		<input class="widefat" id="<?php echo $this->get_field_id('frypeeventcount'); ?>" name="<?php echo $this->get_field_name('frypeeventcount'); ?>" type="text" value="<?php echo esc_attr( $instance[ 'frypeeventcount' ] ); ?>" />
+		</p>
+		<p>
+		<label for="<?php echo $this->get_field_id('frypeeventwwidth'); ?>"><?php _e('Width:', 'frypepage_widget'); ?></label> 
+		<input class="widefat" id="<?php echo $this->get_field_id('frypeeventwwidth'); ?>" name="<?php echo $this->get_field_name('frypeeventwwidth'); ?>" type="text" value="<?php echo esc_attr( $instance[ 'frypeeventwwidth' ] ); ?>" />
+		</p>
+        
+        
+		<?php 
+	}
+
+} // class Frype_EventWidget
+// register Frype_EventWidget widget
+add_action( 'widgets_init', create_function( '', 'register_widget("Frype_EventWidget");' ) );
+/*
+* Shortcodes Frype events
+* @since 2.1.1
+* @date 2011-11-24
+*/
+
+function ffew_shortcode($atts){
+	extract(shortcode_atts(array(
+	'id'		=>	'18368189', // int() = 123456789
+	'width'		=>	'300', // px
+	'users'		=>	'5', // how many users show?
+	'uqid'		=>	'951357456852' // any alphanum. MUST be UNIQE per page
+	), $atts));
+
+// USAGE / LIETOŠANA
+// [frypeevent id='18368189' width='300' users='5' uqid='951357456852']
+
+$fefs = "\n\n<!-- Draugiem.lv biznesa lapu sekotāju spraudnis ".FFPVERSION." via http://umbrovskis.com  / Pasākumi: $id ($uqid) -->\n";
+$fefs .='<style>#evFansBlock'.$id.$uqid.' { width:'.$width.'px;border: 1px solid #c9c9c9; }</style>'; 
+$fefs .='<div id="evFansBlock'.$id.$uqid.'"></div>';
+
+$fefs .='<script>';
+$fefs .=<<<EOT
+var fans = new DApi.EvFans( {name:'ev/$id/',	count:$users} );
+EOT;
+$fefs .="\n".'fans.append(\'evFansBlock'.$id.$uqid.'\');</script>';
+$fefs .="\n<!-- Draugiem.lv biznesa lapu sekotāju spraudnis ".FFPVERSION." via http://umbrovskis.com  / Pasākumi: $id ($uqid) beigas  -->\n".''."\n";
+
+return $fefs;
+
+}
+add_shortcode('frypeevent', 'ffew_shortcode');
+add_shortcode('frypevent', 'ffew_shortcode');
+
+include_once(FRYPEFANPAGEINC.'/mbsmcru.php');
