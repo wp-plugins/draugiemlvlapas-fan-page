@@ -31,7 +31,7 @@ define('FRYPEFANPAGED',dirname(__FILE__)); // widget path location @since 0.1.6
 define('FRYPEFANPAGEINC',FRYPEFANPAGED.'/includes_fd'); // widget path location @since 2.1.1
 define('FRYPEFANPAGEURI',plugin_dir_url(__FILE__)); // widget url location @since 2.1
 define('FRYPEFANPAGEI',plugins_url(FRYPEFANPAGEF).'/img'); // Image location @since 0.1.6
-define('FRYPEFANPAGEINFO','http://darbi.mediabox.lv/draugiem-lvlapas-fanu-wordpress-spraudnis/'); // Plugin info
+define('FRYPEFANPAGEINFO','http://mediabox.lv/wordpress-spraudni/draugiem-lv-biznesa-lapu-fanu-wordpress-spraudnis/'); // Plugin info
 
 /**
  * Shortname
@@ -62,9 +62,9 @@ function ffpsh_headeq_init_method() {
         wp_register_script('ffpsh_draugiem_api', 'http://www.draugiem.lv/api/api.js', '', '1.1', false );
 		wp_enqueue_script('ffpsh_draugiem_api');
     }
-}    
- 
-add_action('init', 'ffpsh_headeq_init_method');
+}
+//add_action('init', 'ffpsh_headeq_init_method');
+add_action('wp_enqueue_scripts', 'ffpsh_headeq_init_method'); /* @since 2.2.1 */
 
 
 function meblogfrypepage_set_plugin_meta($links, $file) {
@@ -76,9 +76,9 @@ function meblogfrypepage_set_plugin_meta($links, $file) {
 			'<a href="http://atbalsts.mediabox.lv/diskusija/draugiem-lv-biznesa-lapu-wordpress-spraudnis/#new-post">' . __('Support Forum') . '</a>',
 			'<a href="http://atbalsts.mediabox.lv/temats/ieteikumi/#new-post">' . __('Feature request') . '</a>',
 			'<a href="http://atbalsts.mediabox.lv/wiki/Draugiem.lv_biznesa_lapu_fanu_Wordpress_spraudnis">' . __('Wiki page') . '</a>',
-			'<a href="http://darbi.mediabox.lv/draugiem-lvlapas-fanu-wordpress-spraudnis/">www</a>',
+			//'<a href="http://darbi.mediabox.lv/draugiem-lvlapas-fanu-wordpress-spraudnis/">www</a>',
 			'<a href="http://umbrovskis.com/ziedo/">' . __('Donate') . '</a>'
-			,'<a href="http://umbrovskis.com/">Umbrovskis.com</a>'
+			// ,'<a href="http://umbrovskis.com/">Umbrovskis.com</a>'
 		));
 	}
 	return $links;
@@ -230,7 +230,7 @@ echo "\n<!-- Draugiem.lv biznesa lapu sekotāju spraudnis ".FFPVERSION."  beidza
 			<input id="<?php echo $this->get_field_id( 'name' ); ?>" name="<?php echo $this->get_field_name( 'name' ); ?>" value="<?php echo $instance['name']; ?>" style="width:100%;" />
 		</p>
 
-		<!-- Sex: Select Box -->
+		<!-- Width: Text Input -->
 		<p>
 			<label for="<?php echo $this->get_field_id( 'wwidth' ); ?>"><?php _e('Width:', 'frypepage_widget'); ?></label><br />
             <span class="small"><?php _e('recomended:', 'frypepage_widget'); ?> 200<br />
@@ -385,9 +385,7 @@ e.append('eventFanButton<?php echo $frypeeventid;?>');
 echo '<!-- Draugiem.lv biznesa lapu sekotāju spraudnis '.FFPVERSION.' via http://umbrovskis.com  / Event: '.$frypeeventid.'  -->';
 ?>
 <div id="evFansBlock<?php echo $frypeeventid;?>"></div>
-<style type="text/css">
-#evFansBlock<?php echo $frypeeventid;?> { width:<?php echo $frypeeventwwidth; ?>px;border: 1px solid #c9c9c9; }
-</style>
+<style>#evFansBlock<?php echo $frypeeventid;?> { width:<?php echo $frypeeventwwidth; ?>px;border: 1px solid #c9c9c9; }</style>
 <script type="text/javascript">
 var fans = new DApi.EvFans( {
 	name:'ev/<?php echo $frypeeventid;?>/',
@@ -457,7 +455,7 @@ function ffew_shortcode($atts){
 	'id'		=>	'18368189', // int() = 123456789
 	'width'		=>	'300', // px
 	'users'		=>	'5', // how many users show?
-	'uqid'		=>	'951357456852' // any alphanum. MUST be UNIQE per page
+	'uqid'		=>	'9513s57dsf5f66f852' // any alphanum. MUST be UNIQE per page
 	), $atts));
 
 // USAGE / LIETOŠANA

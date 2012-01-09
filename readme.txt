@@ -35,13 +35,13 @@ You `MUST` have a page on draugiem.lv/lapas to use this widget.
 * Ievietot jebkurā rakstā vai lapā
 
 = Latviski: =
-* [Draugiem.lv biznesa lapu sekotāju spraudnis](http://darbi.mediabox.lv/draugiem-lvlapas-fanu-wordpress-spraudnis/) latviski.
+* [Draugiem.lv biznesa lapu sekotāju spraudnis](http://mediabox.lv/wordpress-spraudni/draugiem-lv-biznesa-lapu-fanu-wordpress-spraudnis/) latviski.
 * Apskaties citus [Wordpress risinājumus](http://mediabox.lv/wordpress/).
 * [Spraudņa Wiki lapa](http://atbalsts.mediabox.lv/wiki/Draugiem.lv_biznesa_lapu_fanu_Wordpress_spraudnis)
 
 = English: =
-* [Draugiem.lv Business page Followers page](http://blog.simplemediacode.com/wordpress-plugins/draugiem-lv-lapas-fan-page/).
-* Other [WordPress plugins](http://blog.simplemediacode.com/wordpress-plugins/) by `Umbrovskis.com` on SimpleMediaCode.com (English).
+* [Draugiem.lv Business page Followers page](http://simplemediacode.info/wordpress-plugins/draugiem-lv-lapas-fan-page/).
+* Other [WordPress plugins](http://simplemediacode.info/wordpress-plugins/) by `Umbrovskis.com` on SimpleMediaCode.com (English).
 
 == Changelog ==
 
@@ -86,7 +86,7 @@ WIKI: [Draugiem.lv biznesa lapu fanu Wordpress spraudnis](http://atbalsts.mediab
 
 == Frequently Asked Questions ==
 
-You can always ask in comments: [Draugiem.lv/lapas Fan page](http://blog.simplemediacode.com/wordpress-plugins/draugiem-lv-lapas-fan-page/) on SimpleMediaCode.com.
+You can always ask in comments: [Draugiem.lv/lapas Fan page](http://simplemediacode.info/wordpress-plugins/draugiem-lv-lapas-fan-page/) on SimpleMediaCode.com.
 
 Visi jautājumi var tikt uzdoti: [Draugiem.lv biznesa lapu sektāju atbalsta lapā](http://atbalsts.mediabox.lv/diskusija/draugiem-lv-biznesa-lapu-wordpress-spraudnis/#new-post).
 
