@@ -46,8 +46,8 @@ You `MUST` have a page on draugiem.lv/lapas to use this widget.
 == Changelog ==
 
 = 2.2.1 =
-* + Romanian laguage via Web Hosting Geeks
-* + Rumāņu valodas tulkojums via Web Hosting Geeks
+* Romanian laguage via Web Hosting Geeks
+* Rumāņu valodas tulkojums via Web Hosting Geeks
 
 = 2.2 =
 * pievienots Pasākumu sekotāju logdaļa
