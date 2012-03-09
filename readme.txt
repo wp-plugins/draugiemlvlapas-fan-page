@@ -3,8 +3,8 @@ Contributors: rolandinsh
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Z4ALL9WUMY3CL&lc=LV&item_name=Umbrovskis%2e%20WordPress%20plugins&item_number=002&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted
 Tags: sidebar, widget, frype, draugiem.lv, draugiem, fan page, frype.com, JSON, WPMU, WordPress Mustisite, WordPress MU, WPMS, draugiem, social networking, social network, fan widget, sidebar widget,
 Requires at least: 2.6
-Tested up to: 3.3
-Stable tag: 2.2
+Tested up to: 3.3.1
+Stable tag: 2.2.1
 
 Draugiem.lv biznesa lapu un pasākumu fanu WordPress spraudnis draugiem.lv lietotājiem
 
@@ -44,6 +44,10 @@ You `MUST` have a page on draugiem.lv/lapas to use this widget.
 * Other [WordPress plugins](http://simplemediacode.info/wordpress-plugins/) by `Umbrovskis.com` on SimpleMediaCode.com (English).
 
 == Changelog ==
+
+= 2.2.1 =
+* + Romanian laguage via Web Hosting Geeks
+* + Rumāņu valodas tulkojums via Web Hosting Geeks
 
 = 2.2 =
 * pievienots Pasākumu sekotāju logdaļa
@@ -91,6 +95,9 @@ You can always ask in comments: [Draugiem.lv/lapas Fan page](http://simplemediac
 Visi jautājumi var tikt uzdoti: [Draugiem.lv biznesa lapu sektāju atbalsta lapā](http://atbalsts.mediabox.lv/diskusija/draugiem-lv-biznesa-lapu-wordpress-spraudnis/#new-post).
 
 == Upgrade Notice ==
+
+= 2.2.1 =
+.ro language
 
 = 2.2 =
 Pasākumu sekotāju logdaļa (widget)
