@@ -3,12 +3,14 @@
  * Plugin Name: Draugiem.lv biznesa lapu sekotāju spraudnis
  * Plugin URI: http://darbi.mediabox.lv/draugiem-lvlapas-fanu-wordpress-spraudnis/?utm_source=WPplugin%3Adraugiemlv-lapas-fan-page&utm_medium=wordpressplugin&utm_campaign=FreeWordPressPlugins&utm_content=v-2-0-1
  * Description: Parāda draugiem.lv/lapas lietotājus, to skaitu, logo un iespēju kļūt par lapas fanu, Shows draugiem.lv/lapas users, fan count, logo and possibility to became a fan
- * Version: 2.2.1
+ * Version: 2.2.2
+ * Stable tag: 2.2.2
  * Requires at least: 2.6
+ * Tested up to: 3.4.1
  * Author: Rolands Umbrovskis
  * Author URI: http://umbrovskis.com
- * License: GPL
- * Stable tag: 2.2.1
+ * License: SimpleMediaCode
+ * License URI: http://simplemediacode.com/license/gpl/
  */
 
 /*  Copyright 2010  Rolands Umbrovskis (webapp at mediabox dot lv)
@@ -67,17 +69,27 @@ define('OPTINENURI1','http://e-art.lv/x/smcnewsletter'); // fix 2.1.1
 /**
  * Don't call me BABY (directly)
  * @since 2.1
- * @relese 17
+ * @release 17
  */
 if ( !function_exists( 'add_action' ) ) {
 	echo "Hi! I'm nice WordPress plugin from Umbrovskis.com, but I am more useful if You are using WordPress. So, don't me call directly!.";
 	exit;
 }
 
+/**
+ * Is not login or register page
+ * @since 2.2.2
+ */
+function smc_is_login_page() {
+    return in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'));
+}
+
+
 function ffpsh_headeq_init_method() {
-    if (!is_admin()) {
-        wp_register_script('ffpsh_draugiem_api', 'http://www.draugiem.lv/api/api.js', '', '1.1', false );
-		wp_enqueue_script('ffpsh_draugiem_api');
+    if (!is_admin()&&!smc_is_login_page()) {
+		wp_deregister_script('ffpsh_draugiem_api');
+        wp_register_script('draugiem_api', 'http://www.draugiem.lv/api/api.js', '', '1.1', false );
+		wp_enqueue_script('draugiem_api');
     }
 }
 //add_action('init', 'ffpsh_headeq_init_method');
@@ -152,6 +164,7 @@ class MeblogFrypePage_Widget extends WP_Widget {
 		$title = apply_filters('widget_title', $instance['title'] );
 		$name = $instance['name'];
 		$wwidth = $instance['wwidth'];
+		$wheight = $instance['wheight'];
 		$show_usersfrp = $instance['show_usersfrp'];
 		$show_cssfrp = $instance['show_cssfrp'];
 		// Maybe remove in next release!
@@ -162,6 +175,7 @@ class MeblogFrypePage_Widget extends WP_Widget {
 		
 		$widgetid = $args['widget_id']; /* magic! *** unique id */
 		if(!$widgetid) $widgetid=987654;
+		if(!$wheight){$wheight = '230';}
 		// Maybe remove in next release!
 		if(!is_numeric($show_pageaboutlenght)||!$show_pageaboutlenght){$show_pageaboutlenght='200';}
 		/* Before widget (defined by themes). */
@@ -169,10 +183,9 @@ class MeblogFrypePage_Widget extends WP_Widget {
 echo "\n\n<!-- Draugiem.lv biznesa lapu sekotāju spraudnis ".FFPVERSION." via http://umbrovskis.com | MediaBox.lv | SimpleMediaCode.com -->\n".''."\n";
 		/* Display the widget title if one was input (before and after defined by themes). */
 		if ($title)	echo $before_title . $title . $after_title;?>
-<style type="text/css" media="all">#fansblock<?php echo $widgetid;?>{width:<?php echo $wwidth;?>px; min-height:230px;}
-#fansblock<?php echo $widgetid;?> div{ overflow:hidden; height:100%;} /* weird in Opera */
-#fansblock<?php echo $widgetid;?> iframe{ overflow:hidden; height:100%; min-height:264px;} /* weird in Opera */
-</style><div id="fansblock<?php echo $widgetid;?>"></div>
+<div id="fansblock<?php echo $widgetid;?>"></div>
+<style type="text/css">#fansblock<?php echo $widgetid;?>{width:<?php echo $wwidth;?>px; height:<?php echo $wheight;?>px;border: 1px solid #c9c9c9; }#fansblock<?php echo $widgetid;?> div {overflow:hidden; height:100%; min-height:264px;}#fansblock<?php echo $widgetid;?> iframe{ overflow:hidden; height:100%; min-height:264px;}.dfoot{margin-top:4px;}</style>
+
 <script type="text/javascript">
 var fans = new DApi.BizFans( {
 	name:'<?php echo mb_strtolower($name, 'UTF-8');?>',
@@ -184,14 +197,13 @@ var fans = new DApi.BizFans( {
 	count:<?php echo $show_usersfrp;?>,
 	showSay:<?php echo $show_saytexts;?>,
 	saycount:<?php echo $show_saycount;?>
-});
-fans.append('fansblock<?php echo $widgetid;?>');	
+} );
+fans.append( 'fansblock<?php echo $widgetid;?>' );		
 </script>
 <div class="dfoot"></div>
 <?php 
 
-
-		/* After widget (defined by themes). */
+/* After widget (defined by themes). */
 		echo $after_widget;
 echo "\n<!-- Draugiem.lv biznesa lapu sekotāju spraudnis ".FFPVERSION."  beidzas footer -->\n\n";
 	}
@@ -205,6 +217,7 @@ echo "\n<!-- Draugiem.lv biznesa lapu sekotāju spraudnis ".FFPVERSION."  beidza
 		$instance['name'] = strip_tags( $new_instance['name'] );
 		/* No need to strip tags for sex and show_usersfrp. */
 		$instance['wwidth'] = $new_instance['wwidth'];
+		$instance['wheight'] = $new_instance['wheight'];
 		$instance['show_usersfrp'] = $new_instance['show_usersfrp'];
 		$instance['show_cssfrp'] = $new_instance['show_cssfrp'];
 		$instance['show_aboutpagelenght'] = $new_instance['show_aboutpagelenght'];
@@ -227,6 +240,7 @@ echo "\n<!-- Draugiem.lv biznesa lapu sekotāju spraudnis ".FFPVERSION."  beidza
 		'title' => __('Draugiem.lv/lapas', 'frypepage_widget'),
 		'name' => __('umbrovskiscom', 'frypepage_widget'),
 		'wwidth' => '240',
+		'wheight' => '234',
 		'show_usersfrp' => '0',
 		'show_cssfrp' =>WP_PLUGIN_URL.'/'.FRYPEFANPAGEF.'/js/widget.css',
 		'show_aboutpagelenght'=> '1000',
@@ -250,8 +264,15 @@ echo "\n<!-- Draugiem.lv biznesa lapu sekotāju spraudnis ".FFPVERSION."  beidza
 		<!-- Width: Text Input -->
 		<p>
 			<label for="<?php echo $this->get_field_id( 'wwidth' ); ?>"><?php _e('Width:', 'frypepage_widget'); ?></label><br />
-            <span class="small"><?php _e('recomended:', 'frypepage_widget'); ?> 200<br />
+            <span class="small"><?php _e('recomended:', 'frypepage_widget'); ?> 200</span><br />
 			<input id="<?php echo $this->get_field_id( 'wwidth' ); ?>" name="<?php echo $this->get_field_name( 'wwidth' ); ?>" value="<?php echo $instance['wwidth']; ?>" style="width:100%;" />
+        </p>
+
+		<!-- Height: Text Input -->
+		<p>
+			<label for="<?php echo $this->get_field_id( 'wheight' ); ?>"><?php _e('Height:', 'frypepage_widget'); ?></label><br />
+			<input id="<?php echo $this->get_field_id( 'wheight' ); ?>" name="<?php echo $this->get_field_name( 'wheight' ); ?>" value="<?php echo $instance['wheight']; ?>" style="width:100%;" />
+        </p>
 
 		<!-- Show Users? Input -->
 		<p><label for="<?php echo $this->get_field_id( 'show_usersfrp' ); ?>"><?php _e('How many users to show?', 'frypepage_widget'); ?></label><br />
@@ -270,9 +291,9 @@ echo "\n<!-- Draugiem.lv biznesa lapu sekotāju spraudnis ".FFPVERSION."  beidza
         <span class="small"><?php _e('0 for none', 'frypepage_widget'); ?></span><br />
         	<input id="<?php echo $this->get_field_id( 'show_saycount' ); ?>" name="<?php echo $this->get_field_name( 'show_saycount' ); ?>" value="<?php echo $instance['show_saycount']; ?>" style="width:100%;" />
 		</p>
-        <p>Šis darbs ir licencēts ar Creative Commons Atsaucoties-Nekomerciāls-Nemainot licenci 3.0 Nepārnesta licenci.<br />
+        <p>Šis darbs ir licencēts ar GPL.<br />
         <img src="<?php echo FRYPEFANPAGEI;?>/creative-commons-by-nc-sa-88x31.png" width="88" height="31" alt="" /><br />
-        Atļaujas ārpus šīs licences ietvariem var iegūt <a href="http://rolands.umbrovskis.com/autortiesibas/" target="_blank" title="Autortiesības">rolands.umbrovskis.com</a> [&copy; 1982-<?php echo date('Y')+70;?> ]</p>
+        <span class="small">Atļaujas ārpus šīs licences ietvariem var iegūt <a href="http://umbrovskis.lv/autortiesibas/" target="_blank" title="Autortiesības">umbrovskis.lv</a> [&copy; 1982-<?php echo date('Y')+70;?>]</span></p>
         
         
 <div  style="display:none">
@@ -319,6 +340,7 @@ function ffp_shortcode($atts){
 	extract(shortcode_atts(array(
 	'name'		=>	'umbrovskiscom', // page name (without http://)
 	'width'		=>	'300',
+	'height'		=>	'230',
 	'users'		=>	'0', // how many users show?
 	'say'		=>	'0', // show = 1; hide=0
 	'saytext'	=>	'0', // count
@@ -327,7 +349,7 @@ function ffp_shortcode($atts){
 // ------------------
 
 $fwshort = "\n\n<!-- Draugiem.lv biznesa lapu sekotāju spraudnis ".FFPVERSION." via http://umbrovskis.com  / $fwid  -->\n";
-$fwshort .='<style>#fansblock'.$fwid.'{width:'.$width.'px; min-height:230px;}#fansblock'.$fwid.' div{ overflow:hidden; height:100%;}#fansblock'.$fwid.' iframe{ overflow:hidden; height:100%; min-height:264px;}</style>'; 
+$fwshort .='<style>#fansblock'.$fwid.'{width:'.$width.'px; height:'.$height.'px;}#fansblock'.$fwid.' div{ overflow:hidden; height:100%;}#fansblock'.$fwid.' iframe{ overflow:hidden; height:100%; min-height:264px;}</style>'; 
 $fwshort .='<div id="fansblock'.$fwid.'"></div>';
 	
 	if($users==0): 
