@@ -258,6 +258,7 @@ echo "\n<!-- Draugiem.lv biznesa lapu sekotāju spraudnis ".FFPVERSION."  beidza
 		<!-- Your Name: Text Input -->
 		<p>
 			<label for="<?php echo $this->get_field_id( 'name' ); ?>"><?php _e('Page URL:', 'frypepage_widget'); ?></label>
+			<br /><small>just <em>part</em> of URL <code>http://www.draugiem.lv/<strong>umbrovskiscom</strong>/</code>, You need only <strong>umbrovskiscom</strong></small>
 			<input id="<?php echo $this->get_field_id( 'name' ); ?>" name="<?php echo $this->get_field_name( 'name' ); ?>" value="<?php echo $instance['name']; ?>" style="width:100%;" />
 		</p>
 
