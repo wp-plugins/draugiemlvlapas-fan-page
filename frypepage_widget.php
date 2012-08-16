@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: Draugiem.lv biznesa lapu sekotāju spraudnis
- * Plugin URI: http://darbi.mediabox.lv/draugiem-lvlapas-fanu-wordpress-spraudnis/?utm_source=WPplugin%3Adraugiemlv-lapas-fan-page&utm_medium=wordpressplugin&utm_campaign=FreeWordPressPlugins&utm_content=v-2-0-1
+ * Plugin URI: http://darbi.mediabox.lv/draugiem-lvlapas-fanu-wordpress-spraudnis/?utm_source=WPplugin%3Adraugiemlv-lapas-fan-page&utm_medium=wordpressplugin&utm_campaign=FreeWordPressPlugins&utm_content=v-2-0-3
  * Description: Parāda draugiem.lv/lapas lietotājus, to skaitu, logo un iespēju kļūt par lapas fanu, Shows draugiem.lv/lapas users, fan count, logo and possibility to became a fan
- * Version: 2.2.2
- * Stable tag: 2.2.2
+ * Version: 2.2.3
+ * Stable tag: 2.2.3
  * Requires at least: 2.6
  * Tested up to: 3.4.1
  * Author: Rolands Umbrovskis
@@ -44,14 +44,17 @@ if (!defined('ABSPATH')) exit;
  */
 add_action( 'widgets_init', 'meblogfrypepage_load_widgets' );
 
-define('FFPVERSION','2.2');
+define('FFPVERSION','2.2.3');
 define('FRYPEFANPAGEF','draugiemlvlapas-fan-page');
 define('FRYPEFANPAGED',dirname(__FILE__)); // widget path location @since 0.1.6
 define('FRYPEFANPAGEINC',FRYPEFANPAGED.'/includes_fd'); // widget path location @since 2.1.1
 define('FRYPEFANPAGEURI',plugin_dir_url(__FILE__)); // widget url location @since 2.1
 define('FRYPEFANPAGEI',plugins_url(FRYPEFANPAGEF).'/img'); // Image location @since 0.1.6
 define('FRYPEFANPAGEINFO','http://mediabox.lv/wordpress-spraudni/draugiem-lv-biznesa-lapu-fanu-wordpress-spraudnis/'); // Plugin info
-
+if (!defined('DRAUGIEMJSAPI')) {
+	$ishttpsurl = (!empty($_SERVER['HTTPS'])) ? "https:" : "http:"; 
+	define('DRAUGIEMJSAPI',$ishttpsurl.'//www.draugiem.lv/api/api.js');
+} // unified constants across plugins @since 2.2.3
 /**
  * Shortname
  * @since 2.0
@@ -63,7 +66,7 @@ define('FFPSH','ffpsh');
  * @since 2.1
  */
 define('OPTINLVURI1','http://darbi.mediabox.lv/wordpress-jaunumi-e-pasta/'); // fix 2.1.1
-define('OPTINENURI1','http://e-art.lv/x/smcnewsletter'); // fix 2.1.1
+define('OPTINENURI1','http://xh.lv/smcnewsletter'); // fix 2.1.1
 
 
 /**
@@ -80,20 +83,20 @@ if ( !function_exists( 'add_action' ) ) {
  * Is not login or register page
  * @since 2.2.2
  */
-function smc_is_login_page() {
-    return in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'));
+if ( !function_exists( 'smc_is_login_page' ) ) {
+	function smc_is_login_page() {
+		return in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'));
+	}
 }
-
-
-function ffpsh_headeq_init_method() {
-    if (!is_admin()&&!smc_is_login_page()) {
-		wp_deregister_script('ffpsh_draugiem_api');
-        wp_register_script('draugiem_api', 'http://www.draugiem.lv/api/api.js', '', '1.1', false );
-		wp_enqueue_script('draugiem_api');
-    }
+if ( !function_exists( 'smc_draugiem_say_headinit' ) ) {
+	function smc_draugiem_say_headinit() {
+		if( !is_admin()&&!smc_is_login_page()){
+			wp_register_script('draugiem_api',DRAUGIEMJSAPI,array(),'1.232', false);
+			wp_enqueue_script('draugiem_api');
+		}
+	}    
+	add_action('init', 'smc_draugiem_say_headinit');
 }
-//add_action('init', 'ffpsh_headeq_init_method');
-add_action('wp_enqueue_scripts', 'ffpsh_headeq_init_method'); /* @since 2.2.1 */
 
 
 function meblogfrypepage_set_plugin_meta($links, $file) {
@@ -102,11 +105,11 @@ function meblogfrypepage_set_plugin_meta($links, $file) {
 	if ($file == $plugin) {
 		return array_merge( $links, array( 
 
-			'<a href="http://atbalsts.mediabox.lv/diskusija/draugiem-lv-biznesa-lapu-wordpress-spraudnis/#new-post">' . __('Support Forum') . '</a>',
-			'<a href="http://atbalsts.mediabox.lv/temats/ieteikumi/#new-post">' . __('Feature request') . '</a>',
-			'<a href="http://atbalsts.mediabox.lv/wiki/Draugiem.lv_biznesa_lapu_fanu_Wordpress_spraudnis">' . __('Wiki page') . '</a>',
+			'<a href="http://atbalsts.mediabox.lv/diskusija/draugiem-lv-biznesa-lapu-wordpress-spraudnis/#new-post">' . __('Support Forum','frypepage_widget') . '</a>',
+			'<a href="http://atbalsts.mediabox.lv/temats/ieteikumi/#new-post">' . __('Feature request','frypepage_widget') . '</a>',
+			'<a href="http://atbalsts.mediabox.lv/wiki/Draugiem.lv_biznesa_lapu_fanu_Wordpress_spraudnis">' . __('Wiki page','frypepage_widget') . '</a>',
 			//'<a href="http://darbi.mediabox.lv/draugiem-lvlapas-fanu-wordpress-spraudnis/">www</a>',
-			'<a href="http://umbrovskis.com/ziedo/">' . __('Donate') . '</a>'
+			'<a href="http://umbrovskis.com/ziedo/">' . __('Donate','frypepage_widget') . '</a>'
 			// ,'<a href="http://umbrovskis.com/">Umbrovskis.com</a>'
 		));
 	}
